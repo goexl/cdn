@@ -17,5 +17,11 @@ func newDomain() *domain {
 }
 
 func (d *domain) sign(url *url.URL) (err error) {
-	return d.signer.sign(url)
+	if se := d.signer.sign(url); nil != se {
+		err = se
+	} else {
+		url.Scheme = d.scheme
+	}
+
+	return
 }
