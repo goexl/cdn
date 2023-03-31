@@ -1,9 +1,8 @@
 package cdn
 
 type chuangcacheBuilder struct {
-	builder  *builder
-	domain   string
-	executor signer
+	builder *builder
+	signers map[string]signer
 }
 
 func newChuangcacheBuilder(builder *builder) *chuangcacheBuilder {
@@ -12,29 +11,15 @@ func newChuangcacheBuilder(builder *builder) *chuangcacheBuilder {
 	}
 }
 
-func (cb *chuangcacheBuilder) Default() *chuangcacheBuilder {
-	return cb.Domain(defaults)
-}
-
-func (cb *chuangcacheBuilder) Any() *chuangcacheBuilder {
-	return cb.Domain(defaults)
-}
-
-func (cb *chuangcacheBuilder) Domain(domain string) *chuangcacheBuilder {
-	cb.domain = domain
-
-	return cb
-}
-
-func (cb *chuangcacheBuilder) Token(token string) *chuangcacheBuilder {
-	cb.executor = newChuangcache(token)
-
-	return cb
+func (cb *chuangcacheBuilder) Signer() *chuangcacheSignerBuilder {
+	return newChuangcacheSignerBuilder(cb)
 }
 
 func (cb *chuangcacheBuilder) Build() (b *builder) {
 	b = cb.builder
-	b.params.signers[cb.domain] = cb.executor
+	for domain, _signer := range cb.signers {
+		b.params.signers[domain] = _signer
+	}
 
 	return
 }
