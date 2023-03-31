@@ -1,11 +1,11 @@
 package cdn
 
 type params struct {
-	signers map[string]signer
+	domains map[string]*domain
 }
 
 func newParams() *params {
 	return &params{
-		signers: make(map[string]signer),
+		domains: make(map[string]*domain),
 	}
 }

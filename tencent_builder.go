@@ -1,14 +1,42 @@
 package cdn
 
 type tencentBuilder struct {
-	builder *builder
-	signers map[string]signer
+	builder  *builder
+	domain   *domain
+	signer   signer
+	patterns []string
 }
 
 func newTencentBuilder(builder *builder) *tencentBuilder {
 	return &tencentBuilder{
-		builder: builder,
+		builder:  builder,
+		domain:   newDomain(),
+		patterns: make([]string, 0, 1),
 	}
+}
+
+func (tb *tencentBuilder) Host(host string) *tencentBuilder {
+	tb.domain.host = host
+
+	return tb
+}
+
+func (tb *tencentBuilder) Scheme(scheme string) *tencentBuilder {
+	tb.domain.scheme = scheme
+
+	return tb
+}
+
+func (tb *tencentBuilder) Default() *tencentBuilder {
+	tb.patterns = append(tb.patterns, defaults)
+
+	return tb
+}
+
+func (tb *tencentBuilder) Pattern(pattern ...string) *tencentBuilder {
+	tb.patterns = append(tb.patterns, pattern...)
+
+	return tb
 }
 
 func (tb *tencentBuilder) Signer() *tencentSignerBuilder {
@@ -17,8 +45,8 @@ func (tb *tencentBuilder) Signer() *tencentSignerBuilder {
 
 func (tb *tencentBuilder) Build() (b *builder) {
 	b = tb.builder
-	for domain, _signer := range tb.signers {
-		b.params.signers[domain] = _signer
+	for _, pattern := range tb.patterns {
+		b.params.domains[pattern] = tb.domain
 	}
 
 	return

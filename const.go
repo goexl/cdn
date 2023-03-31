@@ -1,3 +1,7 @@
 package cdn
 
-const defaults = "default"
+const (
+	defaults = "default"
+	http     = "http"
+	https    = "https"
+)
