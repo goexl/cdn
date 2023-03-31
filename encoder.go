@@ -22,29 +22,29 @@ func newEncoder(params *params) *Encoder {
 	}
 }
 
-func (e *Encoder) Encode(from string) (encoded *url.URL, err error) {
+func (e *Encoder) Sign(from string) (encoded *url.URL, err error) {
 	if parsed, pe := url.Parse(from); nil != pe {
 		err = pe
-	} else if _executor, ee := e.signer(parsed.Host); nil != ee {
+	} else if sign, ee := e.lookupSigner(parsed.Host); nil != ee {
 		err = ee
 	} else {
-		err = _executor.sign(parsed)
+		err = sign.sign(parsed)
 	}
 
 	return
 }
 
-func (e *Encoder) signer(host string) (signer signer, err error) {
+func (e *Encoder) lookupSigner(host string) (signer signer, err error) {
 	if cached, ok := e.signers[host]; ok {
 		signer = cached
 	} else {
-		signer, err = e.match(host)
+		signer, err = e.matchSigner(host)
 	}
 
 	return
 }
 
-func (e *Encoder) match(host string) (signer signer, err error) {
+func (e *Encoder) matchSigner(host string) (signer signer, err error) {
 	for domain, value := range e.params.signers {
 		if matched, me := path.Match(domain, host); nil == me && matched {
 			signer = value
