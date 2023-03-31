@@ -26,8 +26,8 @@ func (csb *chuangcacheSignerBuilder) Domain(domain string) *chuangcacheSignerBui
 	return csb
 }
 
-func (csb *chuangcacheSignerBuilder) Token(token string) *chuangcacheSignerBuilder {
-	csb.signer = newChuangcache(token)
+func (csb *chuangcacheSignerBuilder) A(token string) *chuangcacheSignerBuilder {
+	csb.signer = newChuangcacheA(token)
 
 	return csb
 }
