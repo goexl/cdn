@@ -8,7 +8,7 @@ import (
 	"github.com/goexl/cryptor"
 )
 
-var _ executor = (*chuangcache)(nil)
+var _ signer = (*chuangcache)(nil)
 
 type chuangcache struct {
 	pattern string

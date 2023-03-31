@@ -3,7 +3,7 @@ package cdn
 type tencentBuilder struct {
 	builder  *builder
 	domain   string
-	executor executor
+	executor signer
 }
 
 func newTencentBuilder(builder *builder) *tencentBuilder {
@@ -52,7 +52,7 @@ func (tb *tencentBuilder) D(key string, sign string, timestamp string) *tencentB
 
 func (tb *tencentBuilder) Build() (b *builder) {
 	b = tb.builder
-	b.params.executors[tb.domain] = tb.executor
+	b.params.signers[tb.domain] = tb.executor
 
 	return
 }

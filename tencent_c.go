@@ -9,7 +9,7 @@ import (
 	"github.com/goexl/cryptor"
 )
 
-var _ executor = (*tencentC)(nil)
+var _ signer = (*tencentC)(nil)
 
 type tencentC struct {
 	pattern string

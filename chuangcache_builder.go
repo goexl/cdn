@@ -3,7 +3,7 @@ package cdn
 type chuangcacheBuilder struct {
 	builder  *builder
 	domain   string
-	executor executor
+	executor signer
 }
 
 func newChuangcacheBuilder(builder *builder) *chuangcacheBuilder {
@@ -34,7 +34,7 @@ func (cb *chuangcacheBuilder) Token(token string) *chuangcacheBuilder {
 
 func (cb *chuangcacheBuilder) Build() (b *builder) {
 	b = cb.builder
-	b.params.executors[cb.domain] = cb.executor
+	b.params.signers[cb.domain] = cb.executor
 
 	return
 }

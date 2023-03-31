@@ -4,6 +4,6 @@ import (
 	"net/url"
 )
 
-type executor interface {
+type signer interface {
 	sign(url *url.URL) (err error)
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/rs/xid"
 )
 
-var _ executor = (*tencentA)(nil)
+var _ signer = (*tencentA)(nil)
 
 type tencentA struct {
 	pattern string
