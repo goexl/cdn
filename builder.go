@@ -18,6 +18,6 @@ func (b *builder) Chuangcache() *chuangcacheBuilder {
 	return newChuangcacheBuilder(b)
 }
 
-func (b *builder) Build() *Encoder {
-	return newEncoder(b.params)
+func (b *builder) Build() *CDN {
+	return newCDN(b.params)
 }
