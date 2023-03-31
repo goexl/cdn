@@ -15,6 +15,13 @@ type chuangcache struct {
 	token   string
 }
 
+func newChuangcache(token string) *chuangcache {
+	return &chuangcache{
+		pattern: "%s%s%d",
+		token:   token,
+	}
+}
+
 func (c *chuangcache) sign(url *url.URL) (err error) {
 	now := time.Now().Unix()
 	key := fmt.Sprintf(c.pattern, c.token, url.Path, now)
