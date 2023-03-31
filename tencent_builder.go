@@ -21,8 +21,14 @@ func (tb *tencentBuilder) Host(host string) *tencentBuilder {
 	return tb
 }
 
-func (tb *tencentBuilder) Scheme(scheme string) *tencentBuilder {
-	tb.domain.scheme = scheme
+func (tb *tencentBuilder) Http() *tencentBuilder {
+	tb.domain.scheme = http
+
+	return tb
+}
+
+func (tb *tencentBuilder) Https() *tencentBuilder {
+	tb.domain.scheme = https
 
 	return tb
 }

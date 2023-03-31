@@ -21,8 +21,14 @@ func (cb *chuangcacheBuilder) Host(host string) *chuangcacheBuilder {
 	return cb
 }
 
-func (cb *chuangcacheBuilder) Scheme(scheme string) *chuangcacheBuilder {
-	cb.domain.scheme = scheme
+func (cb *chuangcacheBuilder) Http() *chuangcacheBuilder {
+	cb.domain.scheme = http
+
+	return cb
+}
+
+func (cb *chuangcacheBuilder) Https() *chuangcacheBuilder {
+	cb.domain.scheme = https
 
 	return cb
 }
