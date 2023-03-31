@@ -34,7 +34,11 @@ func (cb *chuangcacheBuilder) Default() *chuangcacheBuilder {
 }
 
 func (cb *chuangcacheBuilder) Pattern(pattern ...string) *chuangcacheBuilder {
-	cb.patterns = append(cb.patterns, pattern...)
+	if 0 == len(pattern) {
+		cb.patterns = append(cb.patterns, defaults)
+	} else {
+		cb.patterns = append(cb.patterns, pattern...)
+	}
 
 	return cb
 }

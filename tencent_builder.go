@@ -34,7 +34,11 @@ func (tb *tencentBuilder) Default() *tencentBuilder {
 }
 
 func (tb *tencentBuilder) Pattern(pattern ...string) *tencentBuilder {
-	tb.patterns = append(tb.patterns, pattern...)
+	if 0 == len(pattern) {
+		tb.patterns = append(tb.patterns, defaults)
+	} else {
+		tb.patterns = append(tb.patterns, pattern...)
+	}
 
 	return tb
 }
