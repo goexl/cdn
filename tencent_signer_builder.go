@@ -52,7 +52,7 @@ func (tsb *tencentSignerBuilder) D(key string, sign string, timestamp string) *t
 
 func (tsb *tencentSignerBuilder) Build() (tb *tencentBuilder) {
 	tb = tsb.builder
-	tb.signer = tsb.signer
+	tb.domain.signer = tsb.signer
 
 	return
 }

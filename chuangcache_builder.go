@@ -1,9 +1,12 @@
 package cdn
 
+import (
+	"strings"
+)
+
 type chuangcacheBuilder struct {
 	builder  *builder
 	domain   *domain
-	signer   signer
 	patterns []string
 }
 
@@ -29,6 +32,17 @@ func (cb *chuangcacheBuilder) Http() *chuangcacheBuilder {
 
 func (cb *chuangcacheBuilder) Https() *chuangcacheBuilder {
 	cb.domain.scheme = https
+
+	return cb
+}
+
+func (cb *chuangcacheBuilder) Scheme(scheme string) *chuangcacheBuilder {
+	switch strings.ToLower(scheme) {
+	case http:
+		cb.domain.scheme = http
+	case https:
+		cb.domain.scheme = https
+	}
 
 	return cb
 }

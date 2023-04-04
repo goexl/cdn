@@ -12,14 +12,14 @@ func newChuangcacheSignerBuilder(builder *chuangcacheBuilder) *chuangcacheSigner
 }
 
 func (csb *chuangcacheSignerBuilder) A(token string) *chuangcacheSignerBuilder {
-	csb.signer = newChuangcacheA(token)
+	csb.signer = newChuangcacheC(token)
 
 	return csb
 }
 
 func (csb *chuangcacheSignerBuilder) Build() (cb *chuangcacheBuilder) {
 	cb = csb.builder
-	cb.signer = csb.signer
+	cb.domain.signer = csb.signer
 
 	return
 }

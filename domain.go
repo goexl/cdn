@@ -20,6 +20,7 @@ func (d *domain) sign(url *url.URL) (err error) {
 	if se := d.signer.sign(url); nil != se {
 		err = se
 	} else {
+		url.Host = d.host
 		url.Scheme = d.scheme
 	}
 

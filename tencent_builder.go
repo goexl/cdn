@@ -1,9 +1,12 @@
 package cdn
 
+import (
+	"strings"
+)
+
 type tencentBuilder struct {
 	builder  *builder
 	domain   *domain
-	signer   signer
 	patterns []string
 }
 
@@ -29,6 +32,17 @@ func (tb *tencentBuilder) Http() *tencentBuilder {
 
 func (tb *tencentBuilder) Https() *tencentBuilder {
 	tb.domain.scheme = https
+
+	return tb
+}
+
+func (tb *tencentBuilder) Scheme(scheme string) *tencentBuilder {
+	switch strings.ToLower(scheme) {
+	case http:
+		tb.domain.scheme = http
+	case https:
+		tb.domain.scheme = https
+	}
 
 	return tb
 }

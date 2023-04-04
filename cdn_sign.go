@@ -9,8 +9,10 @@ func (c *CDN) Sign(from string) (signed *url.URL, err error) {
 		err = pe
 	} else if _domain, ee := c.lookupDomain(parsed.Host); nil != ee {
 		err = ee
+	} else if se := _domain.sign(parsed); nil != se {
+		err = se
 	} else {
-		err = _domain.sign(parsed)
+		signed = parsed
 	}
 
 	return
