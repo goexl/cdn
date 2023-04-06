@@ -27,18 +27,19 @@ func newChuangcacheC(token string) *chuangcacheC {
 	}
 }
 
-func (cc *chuangcacheC) sign(from *url.URL) (err error) {
+func (cc *chuangcacheC) sign(url *url.URL) (err error) {
 	now := time.Now().Unix()
-	key := fmt.Sprintf(cc.pattern, cc.token, from.Path, now)
-	sb := gox.StringBuilder(from.RawQuery)
-	if "" == from.RawQuery {
+	key := fmt.Sprintf(cc.pattern, cc.token, url.Path, now)
+	sign := cryptor.New(key).Md5().Hex()
+	sb := gox.StringBuilder(url.RawQuery)
+	if "" == url.RawQuery {
 		sb.Append(question)
 	} else {
 		sb.Append(and)
 	}
-	sb.Append(cc.signature).Append(equal).Append(cryptor.New(key).Md5().Hex())
+	sb.Append(cc.signature).Append(equal).Append(sign)
 	sb.Append(and).Append(cc.timestamp).Append(equal).Append(now)
-	from.RawQuery = sb.String()
+	url.RawQuery = sb.String()
 
 	return
 }

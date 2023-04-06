@@ -23,12 +23,12 @@ func newTencentC(key string) *tencentC {
 	}
 }
 
-func (c *tencentC) sign(url *url.URL) (err error) {
-	nowHex := strconv.FormatInt(time.Now().Unix(), 16)
-	key := fmt.Sprintf(c.pattern, c.key, url.EscapedPath(), nowHex)
+func (tc *tencentC) sign(url *url.URL) (err error) {
+	now := strconv.FormatInt(time.Now().Unix(), 16)
+	key := fmt.Sprintf(tc.pattern, tc.key, url.EscapedPath(), now)
 	sign := cryptor.New(key).Md5().Hex()
-	url.RawPath = fmt.Sprintf("/%s/%s%s", sign, nowHex, url.EscapedPath())
-	url.Path = fmt.Sprintf("/%s/%s%s", sign, nowHex, url.Path)
+	url.RawPath = fmt.Sprintf("/%s/%s%s", sign, now, url.EscapedPath())
+	url.Path = fmt.Sprintf("/%s/%s%s", sign, now, url.Path)
 
 	return
 }

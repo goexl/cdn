@@ -22,12 +22,12 @@ func newTencentB(key string) *tencentB {
 	}
 }
 
-func (b *tencentB) sign(url *url.URL) (err error) {
-	nowHex := time.Now().Format("20060102150405")
-	key := fmt.Sprintf(b.pattern, b.key, nowHex, url.EscapedPath())
+func (tb *tencentB) sign(url *url.URL) (err error) {
+	now := time.Now().Format("20060102150405")
+	key := fmt.Sprintf(tb.pattern, tb.key, now, url.EscapedPath())
 	sign := cryptor.New(key).Md5().Hex()
-	url.RawPath = fmt.Sprintf("%s/%s%s", nowHex, sign, url.EscapedPath())
-	url.Path = fmt.Sprintf("%s/%s%s", nowHex, sign, url.Path)
+	url.RawPath = fmt.Sprintf("%s/%s%s", now, sign, url.EscapedPath())
+	url.Path = fmt.Sprintf("%s/%s%s", now, sign, url.Path)
 
 	return
 }
