@@ -1,4 +1,4 @@
-package cdn
+package c
 
 import (
 	"fmt"
@@ -6,26 +6,27 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/goexl/cdn/internal/internal"
 	"github.com/goexl/cryptor"
 )
 
-var _ signer = (*tencentC)(nil)
+var _ internal.Signer = (*Tencent)(nil)
 
-type tencentC struct {
+type Tencent struct {
 	pattern string
 	key     string
 }
 
-func newTencentC(key string) *tencentC {
-	return &tencentC{
+func NewTencent(key string) *Tencent {
+	return &Tencent{
 		pattern: "%s%s%s",
 		key:     key,
 	}
 }
 
-func (tc *tencentC) sign(url *url.URL) (err error) {
+func (t *Tencent) Sign(url *url.URL) (err error) {
 	now := strconv.FormatInt(time.Now().Unix(), 16)
-	key := fmt.Sprintf(tc.pattern, tc.key, url.EscapedPath(), now)
+	key := fmt.Sprintf(t.pattern, t.key, url.EscapedPath(), now)
 	sign := cryptor.New(key).Md5().Hex()
 	url.RawPath = fmt.Sprintf("/%s/%s%s", sign, now, url.EscapedPath())
 	url.Path = fmt.Sprintf("/%s/%s%s", sign, now, url.Path)

@@ -1,6 +1,6 @@
 module github.com/goexl/cdn
 
-go 1.19
+go 1.21
 
 require (
 	github.com/goexl/cryptor v0.0.4
