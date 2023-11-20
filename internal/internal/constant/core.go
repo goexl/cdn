@@ -2,8 +2,8 @@ package constant
 
 const (
 	Defaults = "default"
-	Http     = "Http"
-	Https    = "Https"
+	Http     = "http"
+	Https    = "https"
 
 	Question = "?"
 	And      = "&"
