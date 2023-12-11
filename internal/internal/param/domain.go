@@ -2,6 +2,7 @@ package param
 
 import (
 	"net/url"
+	"time"
 
 	"github.com/goexl/cdn/internal/internal"
 	"github.com/goexl/cdn/internal/internal/constant"
@@ -19,8 +20,8 @@ func NewDomain() *Domain {
 	}
 }
 
-func (d *Domain) Sign(url *url.URL) (err error) {
-	if se := d.Signer.Sign(url); nil != se {
+func (d *Domain) Sign(url *url.URL, expired time.Duration) (err error) {
+	if se := d.Signer.Sign(url, expired); nil != se {
 		err = se
 	} else {
 		url.Host = d.Host

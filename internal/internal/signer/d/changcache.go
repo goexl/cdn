@@ -29,8 +29,8 @@ func NewChuangcache(token string) *Chuangcache {
 	}
 }
 
-func (c *Chuangcache) Sign(url *url.URL) (err error) {
-	now := time.Now().Unix()
+func (c *Chuangcache) Sign(url *url.URL, expired time.Duration) (err error) {
+	now := time.Now().Add(expired).Unix()
 	key := fmt.Sprintf(c.pattern, c.token, url.Path, now)
 	sign := cryptor.New(key).Md5().Hex()
 	sb := gox.StringBuilder(url.RawQuery)

@@ -19,7 +19,7 @@ func NewChuangcache(builder *Domain, params *param.Domain) *Chuangcache {
 	}
 }
 
-func (c *Chuangcache) A(token string) (cache *Chuangcache) {
+func (c *Chuangcache) C(token string) (cache *Chuangcache) {
 	c.signer = d.NewChuangcache(token)
 	cache = c
 

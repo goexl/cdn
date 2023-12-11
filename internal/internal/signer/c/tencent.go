@@ -24,7 +24,7 @@ func NewTencent(key string) *Tencent {
 	}
 }
 
-func (t *Tencent) Sign(url *url.URL) (err error) {
+func (t *Tencent) Sign(url *url.URL, _ time.Duration) (err error) {
 	now := strconv.FormatInt(time.Now().Unix(), 16)
 	key := fmt.Sprintf(t.pattern, t.key, url.EscapedPath(), now)
 	sign := cryptor.New(key).Md5().Hex()

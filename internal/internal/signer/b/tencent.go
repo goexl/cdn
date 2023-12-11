@@ -23,7 +23,7 @@ func NewTencent(key string) *Tencent {
 	}
 }
 
-func (tb *Tencent) Sign(url *url.URL) (err error) {
+func (tb *Tencent) Sign(url *url.URL, _ time.Duration) (err error) {
 	now := time.Now().Format("20060102150405")
 	key := fmt.Sprintf(tb.pattern, tb.key, now, url.EscapedPath())
 	sign := cryptor.New(key).Md5().Hex()

@@ -3,6 +3,7 @@ package core
 import (
 	"net/url"
 	"path"
+	"time"
 
 	"github.com/goexl/cdn/internal/internal/constant"
 	param2 "github.com/goexl/cdn/internal/internal/param"
@@ -25,12 +26,12 @@ func NewClient(params *param2.Cdn) *Client {
 	}
 }
 
-func (c *Client) Sign(from string) (signed *url.URL, err error) {
+func (c *Client) Sign(from string, expired time.Duration) (signed *url.URL, err error) {
 	if parsed, pe := url.Parse(from); nil != pe {
 		err = pe
 	} else if _domain, ee := c.lookupDomain(parsed.Host); nil != ee {
 		err = ee
-	} else if se := _domain.Sign(parsed); nil != se {
+	} else if se := _domain.Sign(parsed, expired); nil != se {
 		err = se
 	} else {
 		signed = parsed

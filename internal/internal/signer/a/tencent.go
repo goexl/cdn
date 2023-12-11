@@ -28,7 +28,7 @@ func NewTencent(key string) *Tencent {
 	}
 }
 
-func (t *Tencent) Sign(url *url.URL) (err error) {
+func (t *Tencent) Sign(url *url.URL, _ time.Duration) (err error) {
 	now := time.Now().Unix()
 	key := fmt.Sprintf(t.pattern, url.EscapedPath(), now, xid.New().String(), t.key)
 	sb := gox.StringBuilder(url.RawQuery)
