@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/goexl/cdn/internal/internal/constant"
-	param2 "github.com/goexl/cdn/internal/internal/param"
+	"github.com/goexl/cdn/internal/internal/param"
 	"github.com/goexl/exc"
 	"github.com/goexl/gox"
 	"github.com/goexl/gox/field"
@@ -14,15 +14,16 @@ import (
 
 // Client 客户端
 type Client struct {
-	params  *param2.Cdn
-	domains map[string]*param2.Domain
-	_       gox.CannotCopy
+	params  *param.Cdn
+	domains map[string]*param.Domain
+
+	_ gox.Pointerized
 }
 
-func NewClient(params *param2.Cdn) *Client {
+func NewClient(params *param.Cdn) *Client {
 	return &Client{
 		params:  params,
-		domains: make(map[string]*param2.Domain),
+		domains: make(map[string]*param.Domain),
 	}
 }
 
@@ -40,7 +41,7 @@ func (c *Client) Sign(from string, expired time.Duration) (signed *url.URL, err 
 	return
 }
 
-func (c *Client) lookupDomain(host string) (domain *param2.Domain, err error) {
+func (c *Client) lookupDomain(host string) (domain *param.Domain, err error) {
 	if cached, ok := c.domains[host]; ok {
 		domain = cached
 	} else {
@@ -50,7 +51,7 @@ func (c *Client) lookupDomain(host string) (domain *param2.Domain, err error) {
 	return
 }
 
-func (c *Client) matchDomain(host string) (domain *param2.Domain, err error) {
+func (c *Client) matchDomain(host string) (domain *param.Domain, err error) {
 	for pattern, value := range c.params.Domains {
 		if matched, me := path.Match(pattern, host); nil == me && matched {
 			domain = value
