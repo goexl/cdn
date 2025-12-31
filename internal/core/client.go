@@ -7,7 +7,7 @@ import (
 
 	"github.com/goexl/cdn/internal/internal/constant"
 	"github.com/goexl/cdn/internal/internal/param"
-	"github.com/goexl/exc"
+	"github.com/goexl/exception"
 	"github.com/goexl/gox"
 	"github.com/goexl/gox/field"
 )
@@ -66,7 +66,7 @@ func (c *Client) matchDomain(host string) (domain *param.Domain, err error) {
 	if nil != domain {
 		c.domains[host] = domain
 	} else {
-		err = exc.NewField("没有匹配到域名", field.New("domains", c.params.Domains))
+		err = exception.New().Message("没有匹配到域名").Field(field.New("domains", c.params.Domains)).Build()
 	}
 
 	return
