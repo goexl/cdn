@@ -36,7 +36,8 @@ func (k *Ks) Sign(url *url.URL, _ time.Duration) (err error) {
 	} else {
 		sb.Append(constant.And)
 	}
-	sb.Append(k.signature).Append(constant.Equal).Append(cryptor.New(key).Md5().Hex())
+	sb.Append("t").Append(constant.Equal).Append(now).
+		Append(constant.And).Append("k").Append(constant.Equal).Append(key)
 	url.RawQuery = sb.String()
 
 	return
