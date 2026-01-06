@@ -76,8 +76,8 @@ func (d *Domain) Tencent() *Tencent {
 	return NewTencent(d, d.params)
 }
 
-func (d *Domain) Chuangcache() *Chuangcache {
-	return NewChuangcache(d, d.params)
+func (d *Domain) Ks() *Ks {
+	return NewKs(d, d.params)
 }
 
 func (d *Domain) Build() (cdn *Cdn) {

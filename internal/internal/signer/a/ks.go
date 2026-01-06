@@ -7,37 +7,36 @@ import (
 
 	"github.com/goexl/cdn/internal/internal"
 	"github.com/goexl/cdn/internal/internal/constant"
+	"github.com/goexl/cryptor"
 	"github.com/goexl/gox"
-	"github.com/rs/xid"
 )
 
-var _ internal.Signer = (*Tencent)(nil)
+var _ internal.Signer = (*Ks)(nil)
 
-type Tencent struct {
+type Ks struct {
 	pattern   string
 	key       string
 	signature string
 }
 
-func NewTencent(key string) *Tencent {
-	return &Tencent{
-		pattern:   "%s%d0%s%s",
+func NewKs(key string) *Ks {
+	return &Ks{
+		pattern:   "%s%s%d",
 		key:       key,
 		signature: "sign",
 	}
 }
 
-func (t *Tencent) Sign(url *url.URL, _ time.Duration) (err error) {
+func (k *Ks) Sign(url *url.URL, _ time.Duration) (err error) {
 	now := time.Now().Unix()
-	key := fmt.Sprintf(t.pattern, url.EscapedPath(), now, xid.New().String(), t.key)
+	key := cryptor.New(fmt.Sprintf(k.pattern, url.EscapedPath(), now)).Md5().Hex()
 	sb := gox.StringBuilder(url.RawQuery)
 	if "" == url.RawQuery {
 		sb.Append(constant.Question)
 	} else {
 		sb.Append(constant.And)
 	}
-	sb.Append("t").Append(constant.Equal).Append(gox.ToString(now)).
-		Append("k").Append(constant.Equal).Append(key)
+	sb.Append(k.signature).Append(constant.Equal).Append(cryptor.New(key).Md5().Hex())
 	url.RawQuery = sb.String()
 
 	return
