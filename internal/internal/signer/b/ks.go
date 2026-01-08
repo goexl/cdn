@@ -27,9 +27,10 @@ func NewKs(key string) *Ks {
 
 func (k *Ks) Sign(url *url.URL, _ time.Duration) (err error) {
 	now := time.Now().Unix()
-	key := cryptor.New(fmt.Sprintf(k.pattern, url.EscapedPath(), now)).Md5().Hex()
-	url.RawPath = fmt.Sprintf("%s/%s/%d/%s", url.EscapedPath(), key, now, url.EscapedPath())
-	url.Path = fmt.Sprintf("%s/%s/%d/%s", url.Path, key, now, url.Path)
+	hash := fmt.Sprintf(k.pattern, k.key, url.EscapedPath(), now)
+	key := cryptor.New(hash).Md5().Hex()
+	url.RawPath = fmt.Sprintf("%s/%d%s", key, now, url.EscapedPath())
+	url.Path = fmt.Sprintf("%s/%d%s", key, now, url.Path)
 
 	return
 }
